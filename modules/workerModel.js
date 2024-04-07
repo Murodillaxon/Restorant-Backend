@@ -4,7 +4,7 @@ const workerTypeSchema = new Schema({
   typeName: { type: String, required: true, unique: true },
 });
 const workerSchema = new Schema({
-  type: { type: Schema.Types.ObjectId, ref: "WorkerType"  }, 
+  type: { type:String, require:true}, 
   fullname: { type: String, required: true },
   password: { type: String, required: true },
   phone: { type: String, required: true },
