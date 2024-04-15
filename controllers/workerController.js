@@ -41,11 +41,7 @@ const getWorkers = async (req, res) => {
 const updateWorker = async (req, res) => {
   try {
     const { id } = req.params;
-    const { password, ...otherData } = req.body;
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      req.body.password = hashedPassword;
-    }
+
     const updatedWorker = await Worker.findByIdAndUpdate(id, req.body, { new: true });
     if (!updatedWorker) {
       return res

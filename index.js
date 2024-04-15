@@ -1,25 +1,20 @@
 const express = require("express");
 const cors = require("cors");
-require('dotenv').config();
+require("dotenv").config();
 const mongoose = require("mongoose");
 const userRouter = require("./routes/workerRouter");
+require("colors");
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
- 
-async function connectToDb() {
-  try {
-    mongoose.connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
 
-    console.log("MongoDB connected successfully");
-  } catch (err) {
-    console.log("Failed to connect to MongoDB:", err);
-  }
+async function connectToDb() {
+  await mongoose
+    .connect(process.env.MONGO_URL)
+    .then(() => console.log("MongoDB is conncted!".bgGreen.white))
+    .catch((err) => console.log("MongoDB in not connected!".bgRed.white, err));
 }
 connectToDb();
 
