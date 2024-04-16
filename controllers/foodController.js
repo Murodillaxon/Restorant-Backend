@@ -1,27 +1,23 @@
-// routes/foodRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const Food = require('../models/foodModel');
+const Food = require('../modules/foodModel');
 
-// Конфигурация Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Папка, куда будут сохраняться изображения
+    cb(null, 'uploads/'); 
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Уникальное имя файла
+    cb(null, Date.now() + '-' + file.originalname);
   },
 });
 
 const upload = multer({ storage: storage });
 
-// Создание новой еды
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/upload', upload.single('image'), async (req, res) => {
   try {
     const { name, description, category, price } = req.body;
-    const image = req.file.path; // Путь к загруженному изображению
+    const image = req.file.path; 
     const food = new Food({ name, description, category, price, image });
     await food.save();
     res.status(201).json({
@@ -35,8 +31,7 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
-// Получение списка всех блюд
-router.get('/', async (req, res) => {
+router.get('/getFoods', async (req, res) => {
   try {
     const foods = await Food.find();
     res.status(200).json({
@@ -50,7 +45,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Получение одного блюда по ID
 router.get('/:id', async (req, res) => {
   try {
     const food = await Food.findById(req.params.id);
@@ -70,8 +64,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Обновление информации о блюде по ID
-router.put('/:id', upload.single('image'), async (req, res) => {
+router.put('/update/:id', upload.single('image'), async (req, res) => {
   try {
     const { name, description, category, price } = req.body;
     const image = req.file.path;
@@ -96,8 +89,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
   }
 });
 
-// Удаление блюда по ID
-router.delete('/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   try {
     const deletedFood = await Food.findByIdAndDelete(req.params.id);
     if (!deletedFood) {

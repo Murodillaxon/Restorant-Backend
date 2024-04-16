@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const userRouter = require("./routes/workerRouter");
+const foodController = require("./controllers/foodController");
 require("colors");
 
 const app = express();
@@ -11,14 +12,17 @@ app.use(express.json());
 app.use(cors());
 
 async function connectToDb() {
-  await mongoose
-    .connect(process.env.MONGO_URL)
-    .then(() => console.log("MongoDB is conncted!".bgGreen.white))
-    .catch((err) => console.log("MongoDB in not connected!".bgRed.white, err));
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("MongoDB is connected!".bgGreen.black);
+  } catch (error) {
+    console.error("MongoDB is not connected!".bgRed.black, error);
+  }
 }
 connectToDb();
 
 app.use("/users", userRouter);
+app.use("/foods", foodController);
 
 const PORT = process.env.PORT || 5000;
 

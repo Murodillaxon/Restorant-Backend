@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Worker } = require("../modules/workerModel");
 
-// Регистрация нового работника
 const createWorker = async (req, res) => {
   try {
     const { username, password, ...otherData } = req.body;
@@ -22,7 +21,6 @@ const createWorker = async (req, res) => {
   }
 };
 
-// Получение списка всех работников
 const getWorkers = async (req, res) => {
   try {
     const workers = await Worker.find();
@@ -37,7 +35,6 @@ const getWorkers = async (req, res) => {
   }
 };
 
-// Обновление информации о работнике
 const updateWorker = async (req, res) => {
   try {
     const { id } = req.params;
@@ -59,7 +56,6 @@ const updateWorker = async (req, res) => {
   }
 };
 
-// Удаление работника
 const deleteWorker = async (req, res) => {
   try {
     const { id } = req.params;
@@ -80,7 +76,6 @@ const deleteWorker = async (req, res) => {
   }
 };
 
-// Аутентификация работника
 const signIn = async (req, res) => {
   try {
     const { username, password } = req.body;
