@@ -3,13 +3,15 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const userRouter = require("./routes/workerRouter");
-const foodController = require("./controllers/foodController");
+const foodController = require("./routes/foodRouter");
 require("colors");
 
 const app = express();
 
+
 app.use(express.json());
 app.use(cors());
+
 
 async function connectToDb() {
   try {
